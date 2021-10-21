@@ -10,7 +10,6 @@ mainContainer.appendChild(header);
 
 const gameContainer = document.createElement("div");
 gameContainer.classList.add("game-container");
-gameContainer.textContent = "game here";
 mainContainer.appendChild(gameContainer);
 
 
@@ -36,6 +35,16 @@ const playerFactory = (mark) => {
     mark;
     return { mark };
 };
+
+const cycleArray = (() => {
+    for (let i = 0; i < gameBoard.gameBoardArray.length; i++) {
+        let gameContainerDiv = document.createElement("div");
+        gameContainerDiv.classList.add("game-container-div");
+        gameContainerDiv.textContent = gameBoard.gameBoardArray[i];
+        gameContainer.appendChild(gameContainerDiv);
+        console.log(gameBoard.gameBoardArray[i]);
+    }
+})();
 
 const playerOne = playerFactory("x");
 const playerTwo = playerFactory("o");

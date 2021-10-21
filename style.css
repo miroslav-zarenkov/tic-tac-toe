@@ -13,6 +13,7 @@ body {
     margin: 0;
     padding: 0;
     display: flex;
+    flex: auto;
     flex-direction: column;
 }
 
@@ -27,9 +28,21 @@ body {
 }
 
 .game-container {
+    margin-top: 30px;
     background-color: azure;
-    width: 10%;
-    height: 30%;
+    width: 500px;
+    height: 500px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
     align-self: center;
     justify-self: center;
+}
+
+.game-container-div {
+    border: 1px solid black;
+    background-color: rgba(200, 200, 200, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
