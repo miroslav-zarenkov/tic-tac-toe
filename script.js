@@ -50,12 +50,25 @@ const playerOne = playerFactory("x");
 const playerTwo = playerFactory("o");
 
 const game = (() => {
+    let playerTurn = 0;
     let gameContainerDivs = document.querySelectorAll(".game-container-div");
     gameContainerDivs.forEach(div => {
         div.addEventListener("click", (e) => {
-            div.classList.toggle("red");
-            div.textContent = playerOne.mark;
-            gameBoard.gameBoardArray[div.getAttribute("data-number")] = playerOne.mark;
+            if (div.textContent === "") {
+                if (playerTurn === 0) {
+                    div.textContent = playerOne.mark;
+                    gameBoard.gameBoardArray[div.getAttribute("data-number")] = playerOne.mark;
+                    playerTurn = 1;
+                    console.log(playerTurn);
+                } else {
+                    div.textContent = playerTwo.mark;
+                    gameBoard.gameBoardArray[div.getAttribute("data-number")] = playerTwo.mark;
+                    playerTurn = 0;
+                    console.log(playerTurn);
+                }
+            } else {
+                return;
+            }
         });
     });
     const resetGame = () => {

@@ -45,8 +45,13 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    user-select: none;
 }
 
 .red {
     background-color: red;
+}
+
+.yellow {
+    background-color: yellow;
 }
