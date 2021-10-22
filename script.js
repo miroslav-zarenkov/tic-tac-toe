@@ -36,38 +36,37 @@ const playerFactory = (mark) => {
     return { mark };
 };
 
+const playerOne = playerFactory("x");
+const playerTwo = playerFactory("o");
+
 const renderGameField = (() => {
     for (let i = 0; i < gameBoard.gameBoardArray.length; i++) {
         let gameContainerDiv = document.createElement("div");
-        gameContainerDiv.classList.add("game-container-div");
+        gameContainerDiv.classList.add("game-field");
         gameContainerDiv.setAttribute("data-number", i);
         gameContainerDiv.textContent = gameBoard.gameBoardArray[i];
         gameContainer.appendChild(gameContainerDiv);
     }
 })();
 
-const playerOne = playerFactory("x");
-const playerTwo = playerFactory("o");
-
 const game = (() => {
     let playerTurn = 0;
-    let gameContainerDivs = document.querySelectorAll(".game-container-div");
+    let player = "";
+    let gameContainerDivs = document.querySelectorAll(".game-field");
     gameContainerDivs.forEach(div => {
         div.addEventListener("click", (e) => {
-            if (div.textContent === "") {
-                if (playerTurn === 0) {
-                    div.textContent = playerOne.mark;
-                    gameBoard.gameBoardArray[div.getAttribute("data-number")] = playerOne.mark;
-                    playerTurn = 1;
-                    console.log(playerTurn);
-                    checkWin();
-                } else {
-                    div.textContent = playerTwo.mark;
-                    gameBoard.gameBoardArray[div.getAttribute("data-number")] = playerTwo.mark;
-                    playerTurn = 0;
-                    console.log(playerTurn);
-                    checkWin();
-                }
+            if ((div.textContent === "") && (playerTurn === 0)) {
+                gameBoard.gameBoardArray[div.getAttribute("data-number")] = playerOne.mark;
+                div.textContent = playerOne.mark;
+                playerTurn = 1;
+                player = playerOne.mark;
+                checkWin();
+            } else if ((div.textContent === "") && (playerTurn === 1)) {
+                gameBoard.gameBoardArray[div.getAttribute("data-number")] = playerTwo.mark;
+                div.textContent = playerTwo.mark;
+                playerTurn = 0;
+                player = playerTwo.mark;
+                checkWin();
             } else {
                 return;
             }
@@ -76,9 +75,15 @@ const game = (() => {
 
     const checkWin = () => {
         if ((gameBoard.gameBoardArray[0] !== "") && (gameBoard.gameBoardArray[0] === gameBoard.gameBoardArray[1]) && (gameBoard.gameBoardArray[0] === gameBoard.gameBoardArray[2])) {
-            console.log("YEZZY");
+            console.log(`${player} wins!`);
             gameContainer.classList.add("disabled");
             playerTurn = 0;
+            player = "";
+        } else if (gameBoard.gameBoardArray.every(elem => elem !== "")) {
+            console.log("TIE!");
+            gameContainer.classList.add("disabled");
+            playerTurn = 0;
+            player = "";
         }
     }
 
