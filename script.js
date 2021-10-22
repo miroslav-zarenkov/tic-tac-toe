@@ -60,21 +60,33 @@ const game = (() => {
                     gameBoard.gameBoardArray[div.getAttribute("data-number")] = playerOne.mark;
                     playerTurn = 1;
                     console.log(playerTurn);
+                    checkWin();
                 } else {
                     div.textContent = playerTwo.mark;
                     gameBoard.gameBoardArray[div.getAttribute("data-number")] = playerTwo.mark;
                     playerTurn = 0;
                     console.log(playerTurn);
+                    checkWin();
                 }
             } else {
                 return;
             }
         });
     });
+
+    const checkWin = () => {
+        if ((gameBoard.gameBoardArray[0] !== "") && (gameBoard.gameBoardArray[0] === gameBoard.gameBoardArray[1]) && (gameBoard.gameBoardArray[0] === gameBoard.gameBoardArray[2])) {
+            console.log("YEZZY");
+            gameContainer.classList.add("disabled");
+            playerTurn = 0;
+        }
+    }
+
     const resetGame = () => {
         gameContainerDivs.forEach(div => {
             div.textContent = "";
             gameBoard.gameBoardArray[div.getAttribute("data-number")] = "";
+            gameContainer.classList.remove("disabled");
         })
     };
     return { resetGame };
