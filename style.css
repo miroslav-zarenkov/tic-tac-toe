@@ -59,3 +59,8 @@ body {
 .disabled {
     pointer-events: none;
 }
+
+.reset-button {
+    width: 100px;
+    align-self: center;
+}

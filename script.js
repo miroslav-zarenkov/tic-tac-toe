@@ -12,6 +12,11 @@ const gameContainer = document.createElement("div");
 gameContainer.classList.add("game-container");
 mainContainer.appendChild(gameContainer);
 
+const resetButton = document.createElement("button");
+resetButton.textContent = "Reset";
+resetButton.classList.add("reset-button");
+mainContainer.appendChild(resetButton);
+
 
 //game
 const gameBoard = (() => {
@@ -31,13 +36,14 @@ const gameBoard = (() => {
     return { gameBoardArray, test, xyz };
 })();
 
-const playerFactory = (mark) => {
+const playerFactory = (name, mark) => {
+    name;
     mark;
-    return { mark };
+    return { name, mark };
 };
 
-const playerOne = playerFactory("x");
-const playerTwo = playerFactory("o");
+const playerOne = playerFactory("Vasya", "x");
+const playerTwo = playerFactory("Petya", "o");
 
 const renderGameField = (() => {
     for (let i = 0; i < gameBoard.gameBoardArray.length; i++) {
@@ -59,13 +65,13 @@ const game = (() => {
                 gameBoard.gameBoardArray[div.getAttribute("data-number")] = playerOne.mark;
                 div.textContent = playerOne.mark;
                 playerTurn = 1;
-                player = playerOne.mark;
+                player = playerOne.name;
                 checkWin();
             } else if ((div.textContent === "") && (playerTurn === 1)) {
                 gameBoard.gameBoardArray[div.getAttribute("data-number")] = playerTwo.mark;
                 div.textContent = playerTwo.mark;
                 playerTurn = 0;
-                player = playerTwo.mark;
+                player = playerTwo.name;
                 checkWin();
             } else {
                 return;
@@ -96,3 +102,5 @@ const game = (() => {
     };
     return { resetGame };
 })();
+
+resetButton.addEventListener("click", game.resetGame);
