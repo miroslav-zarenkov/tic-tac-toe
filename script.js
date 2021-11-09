@@ -17,6 +17,9 @@ resetButton.textContent = "Reset";
 resetButton.classList.add("reset-button");
 mainContainer.appendChild(resetButton);
 
+const popup = document.createElement("div");
+popup.classList.add("popup", "red", "none");
+mainContainer.appendChild(popup);
 
 //game
 const gameBoard = (() => {
@@ -89,11 +92,15 @@ const game = (() => {
             ((gameBoard.gameBoardArray[6] !== "") && (gameBoard.gameBoardArray[6] === gameBoard.gameBoardArray[7]) && (gameBoard.gameBoardArray[6] === gameBoard.gameBoardArray[8])) ||
             ((gameBoard.gameBoardArray[2] !== "") && (gameBoard.gameBoardArray[2] === gameBoard.gameBoardArray[4]) && (gameBoard.gameBoardArray[2] === gameBoard.gameBoardArray[6]))) {
             console.log(`${player} wins!`);
+            popup.textContent = `${player} wins!`;
+            popup.classList.remove("none");
             gameContainer.classList.add("disabled");
             playerTurn = 0;
             player = "";
         } else if (gameBoard.gameBoardArray.every(elem => elem !== "")) {
             console.log("TIE!");
+            popup.textContent = "TIE!";
+            popup.classList.remove("none");
             gameContainer.classList.add("disabled");
             playerTurn = 0;
             player = "";
@@ -105,8 +112,9 @@ const game = (() => {
             div.textContent = "";
             gameBoard.gameBoardArray[div.getAttribute("data-number")] = "";
             gameContainer.classList.remove("disabled");
-            playerTurn = 0;
         })
+        playerTurn = 0;
+        popup.classList.add("none");
     };
     return { resetGame };
 })();
