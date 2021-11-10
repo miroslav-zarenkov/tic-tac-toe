@@ -17,9 +17,9 @@ resetButton.textContent = "Reset";
 resetButton.classList.add("reset-button");
 mainContainer.appendChild(resetButton);
 
-const popup = document.createElement("div");
-popup.classList.add("popup", "red", "none");
-mainContainer.appendChild(popup);
+const popupWin = document.createElement("div");
+popupWin.classList.add("popup", "red", "none");
+mainContainer.appendChild(popupWin);
 
 //game
 const gameBoard = (() => {
@@ -58,30 +58,48 @@ const renderGameField = (() => {
 })();
 
 const game = (() => {
+    let gameModeAI;
     let playerTurn = 0;
     let player = "";
     let gameContainerDivs = document.querySelectorAll(".game-field");
-    gameContainerDivs.forEach(div => {
-        div.addEventListener("click", (e) => {
-            if ((div.textContent === "") && (playerTurn === 0)) {
-                gameBoard.gameBoardArray[div.getAttribute("data-number")] = playerOne.mark;
-                div.textContent = playerOne.mark;
-                playerTurn = 1;
-                player = playerOne.name;
-                if (!checkWin()) {
-                    aiTurn();
+
+    const vsFriend = () => {
+        gameContainerDivs.forEach(div => {
+            div.addEventListener("click", (e) => {
+                if ((div.textContent === "") && (playerTurn === 0)) {
+                    gameBoard.gameBoardArray[div.getAttribute("data-number")] = playerOne.mark;
+                    div.textContent = playerOne.mark;
+                    playerTurn = 1;
+                    player = playerOne.name;
+                    checkWin();
+                } else if ((div.textContent === "") && (playerTurn === 1)) {
+                    gameBoard.gameBoardArray[div.getAttribute("data-number")] = playerTwo.mark;
+                    div.textContent = playerTwo.mark;
+                    playerTurn = 0;
+                    player = playerTwo.name;
+                    checkWin();
+                } else {
+                    return;
                 }
-            } else if ((div.textContent === "") && (playerTurn === 1)) {
-                gameBoard.gameBoardArray[div.getAttribute("data-number")] = playerTwo.mark;
-                div.textContent = playerTwo.mark;
-                playerTurn = 0;
-                player = playerTwo.name;
-                checkWin();
-            } else {
-                return;
-            }
-        });
-    });
+            });
+        })
+    };
+
+    const vsAI = () => {
+        gameContainerDivs.forEach(div => {
+            div.addEventListener("click", (e) => {
+                if ((div.textContent === "") && (playerTurn === 0)) {
+                    gameBoard.gameBoardArray[div.getAttribute("data-number")] = playerOne.mark;
+                    div.textContent = playerOne.mark;
+                    playerTurn = 1;
+                    player = playerOne.name;
+                    if (!checkWin()) {
+                        aiTurn();
+                    }
+                }
+            })
+        })
+    };
 
     const checkWin = () => {
         if (((gameBoard.gameBoardArray[0] !== "") && (gameBoard.gameBoardArray[0] === gameBoard.gameBoardArray[1]) && (gameBoard.gameBoardArray[0] === gameBoard.gameBoardArray[2])) ||
@@ -93,20 +111,22 @@ const game = (() => {
             ((gameBoard.gameBoardArray[6] !== "") && (gameBoard.gameBoardArray[6] === gameBoard.gameBoardArray[7]) && (gameBoard.gameBoardArray[6] === gameBoard.gameBoardArray[8])) ||
             ((gameBoard.gameBoardArray[2] !== "") && (gameBoard.gameBoardArray[2] === gameBoard.gameBoardArray[4]) && (gameBoard.gameBoardArray[2] === gameBoard.gameBoardArray[6]))) {
             console.log(`${player} wins!`);
-            popup.textContent = `${player} wins!`;
-            popup.classList.remove("none");
+            popupWin.textContent = `${player} wins!`;
+            popupWin.classList.remove("none");
             gameContainer.classList.add("disabled");
             playerTurn = 0;
             player = "";
             return true;
         } else if (gameBoard.gameBoardArray.every(elem => elem !== "")) {
             console.log("TIE!");
-            popup.textContent = "TIE!";
-            popup.classList.remove("none");
+            popupWin.textContent = "TIE!";
+            popupWin.classList.remove("none");
             gameContainer.classList.add("disabled");
             playerTurn = 0;
             player = "";
             return true;
+        } else {
+            return;
         }
     }
 
@@ -117,7 +137,7 @@ const game = (() => {
             gameContainer.classList.remove("disabled");
         })
         playerTurn = 0;
-        popup.classList.add("none");
+        popupWin.classList.add("none");
     };
 
     const randomDiv = (min, max) => {
@@ -128,7 +148,6 @@ const game = (() => {
 
     const aiTurn = () => {
         let randomNumber = randomDiv();
-        console.log(randomNumber)
         if (gameContainerDivs[randomNumber].textContent !== "") {
             aiTurn();
         } else if ((gameContainerDivs[randomNumber].textContent === "") && (playerTurn === 1)) {
@@ -141,7 +160,16 @@ const game = (() => {
             return;
         };
     };
-    return { resetGame, aiTurn };
+
+    const chooseGameMode = () => {
+        if (gameModeAI === 1) {
+            vsAI();
+        } else {
+            vsFriend();
+        }
+    };
+    chooseGameMode();
+    return { resetGame };
 })();
 
 resetButton.addEventListener("click", game.resetGame);
