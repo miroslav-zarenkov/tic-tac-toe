@@ -39,6 +39,30 @@ popupGameModeContainer.appendChild(popupGameModeFriend);
 const popupGameModeAI = document.createElement("button");
 popupGameModeAI.textContent = "Against AI";
 popupGameModeContainer.appendChild(popupGameModeAI);
+
+const popupGameModeFriendSetup = document.createElement("div");
+
+popupGameModeFriendSetup.classList.add("popup", "red", "none");
+mainContainer.appendChild(popupGameModeFriendSetup);
+
+const popupGameModeFriendSetupHead = document.createElement("div");
+popupGameModeFriendSetupHead.textContent = "Game against friend setup";
+popupGameModeFriendSetup.appendChild(popupGameModeFriendSetupHead);
+
+const popupGameModeFriendSetupParagraphPlayerOne = document.createElement("p");
+popupGameModeFriendSetupParagraphPlayerOne.textContent = "Player one name";
+popupGameModeFriendSetup.appendChild(popupGameModeFriendSetupParagraphPlayerOne);
+
+const popupGameModeFriendSetupInputPlayerOne = document.createElement("input");
+popupGameModeFriendSetup.appendChild(popupGameModeFriendSetupInputPlayerOne);
+
+const popupGameModeFriendSetupParagraphPlayerTwo = document.createElement("p");
+popupGameModeFriendSetupParagraphPlayerTwo.textContent = "Player two name";
+popupGameModeFriendSetup.appendChild(popupGameModeFriendSetupParagraphPlayerTwo);
+
+const popupGameModeFriendSetupInputPlayerTwo = document.createElement("input");
+popupGameModeFriendSetup.appendChild(popupGameModeFriendSetupInputPlayerTwo);
+
 //game
 const gameBoard = (() => {
     let gameBoardArray = [
@@ -196,18 +220,19 @@ const game = (() => {
         gameModeAI = 1;
         chooseGameMode();
         startGame();
-        console.log("AI");
     }
     const chooseGameModeButtonFriend = () => {
         gameModeAI = 0;
         chooseGameMode();
-        startGame();
-        console.log("FRIEND");
+    }
+    const chooseGameModeFriendSetup = () => {
+        popupGameModeFriendSetup.classList.remove("none");
+        popupGameModeContainer.classList.add("none");
+        gameModeAI = 0;
     }
 
-    popupGameModeFriend.addEventListener("click", chooseGameModeButtonFriend);
+    popupGameModeFriend.addEventListener("click", chooseGameModeFriendSetup);
     popupGameModeAI.addEventListener("click", chooseGameModeButtonAI);
-    return { resetGame };
+    resetButton.addEventListener("click", resetGame);
+    //return { resetGame };
 })();
-
-resetButton.addEventListener("click", game.resetGame);
