@@ -24,19 +24,17 @@ mainContainer.appendChild(popup);
 //game
 const gameBoard = (() => {
     let gameBoardArray = [
-        "o",
-        "o",
-        "x",
-        "o",
-        "x",
-        "o",
-        "1",
-        "2",
-        "3"
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        ""
     ];
-    test = () => console.log("HELLO");
-    let xyz = 3;
-    return { gameBoardArray, test, xyz };
+    return { gameBoardArray };
 })();
 
 const playerFactory = (name, mark) => {
@@ -47,6 +45,7 @@ const playerFactory = (name, mark) => {
 
 const playerOne = playerFactory("Vasya", "x");
 const playerTwo = playerFactory("Petya", "o");
+const playerAI = playerFactory("Mr. Robot", "o");
 
 const renderGameField = (() => {
     for (let i = 0; i < gameBoard.gameBoardArray.length; i++) {
@@ -116,7 +115,29 @@ const game = (() => {
         playerTurn = 0;
         popup.classList.add("none");
     };
-    return { resetGame };
+
+    const randomDiv = (min, max) => {
+        min = Math.ceil(0);
+        max = Math.floor(8);
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    };
+
+    const aiTurn = () => {
+        let randomNumber = randomDiv();
+        console.log(randomNumber)
+        if (gameContainerDivs[randomNumber].textContent !== "") {
+            aiTurn();
+        } else if ((gameContainerDivs[randomNumber].textContent === "") && (playerTurn === 1)) {
+            gameBoard.gameBoardArray[randomNumber] = playerAI.mark;
+            gameContainerDivs[randomNumber].textContent = playerAI.mark;
+            playerTurn = 0;
+            player = playerAI.name;
+            checkWin();
+        } else {
+            return;
+        };
+    };
+    return { resetGame, aiTurn };
 })();
 
 resetButton.addEventListener("click", game.resetGame);
