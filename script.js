@@ -68,7 +68,9 @@ const game = (() => {
                 div.textContent = playerOne.mark;
                 playerTurn = 1;
                 player = playerOne.name;
-                checkWin();
+                if (!checkWin()) {
+                    aiTurn();
+                }
             } else if ((div.textContent === "") && (playerTurn === 1)) {
                 gameBoard.gameBoardArray[div.getAttribute("data-number")] = playerTwo.mark;
                 div.textContent = playerTwo.mark;
@@ -96,6 +98,7 @@ const game = (() => {
             gameContainer.classList.add("disabled");
             playerTurn = 0;
             player = "";
+            return true;
         } else if (gameBoard.gameBoardArray.every(elem => elem !== "")) {
             console.log("TIE!");
             popup.textContent = "TIE!";
@@ -103,6 +106,7 @@ const game = (() => {
             gameContainer.classList.add("disabled");
             playerTurn = 0;
             player = "";
+            return true;
         }
     }
 
