@@ -9,7 +9,7 @@ header.textContent = "Tic-Tac-Toe"
 mainContainer.appendChild(header);
 
 const gameContainer = document.createElement("div");
-gameContainer.classList.add("game-container");
+gameContainer.classList.add("game-container", "none");
 mainContainer.appendChild(gameContainer);
 
 const resetButton = document.createElement("button");
@@ -21,6 +21,24 @@ const popupWin = document.createElement("div");
 popupWin.classList.add("popup", "red", "none");
 mainContainer.appendChild(popupWin);
 
+const popupGameMode = document.createElement("div");
+popupGameMode.classList.add("popup", "red")
+mainContainer.appendChild(popupGameMode);
+
+const popupGameModeContainer = document.createElement("div");
+popupGameMode.appendChild(popupGameModeContainer);
+
+const popupGameModeHead = document.createElement("div");
+popupGameModeHead.textContent = "Choose game mode";
+popupGameModeContainer.appendChild(popupGameModeHead);
+
+const popupGameModeFriend = document.createElement("button");
+popupGameModeFriend.textContent = "Against Friend";
+popupGameModeContainer.appendChild(popupGameModeFriend);
+
+const popupGameModeAI = document.createElement("button");
+popupGameModeAI.textContent = "Against AI";
+popupGameModeContainer.appendChild(popupGameModeAI);
 //game
 const gameBoard = (() => {
     let gameBoardArray = [
@@ -168,7 +186,27 @@ const game = (() => {
             vsFriend();
         }
     };
-    chooseGameMode();
+
+    const startGame = () => {
+        popupGameModeContainer.classList.add("none");
+        gameContainer.classList.remove("none");
+    };
+
+    const chooseGameModeButtonAI = () => {
+        gameModeAI = 1;
+        chooseGameMode();
+        startGame();
+        console.log("AI");
+    }
+    const chooseGameModeButtonFriend = () => {
+        gameModeAI = 0;
+        chooseGameMode();
+        startGame();
+        console.log("FRIEND");
+    }
+
+    popupGameModeFriend.addEventListener("click", chooseGameModeButtonFriend);
+    popupGameModeAI.addEventListener("click", chooseGameModeButtonAI);
     return { resetGame };
 })();
 
