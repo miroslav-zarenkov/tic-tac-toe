@@ -81,3 +81,43 @@ body {
 .none {
     display: none;
 }
+
+.grid-head {
+    grid-area: head;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    border-bottom: 1px solid black;
+    width: 100%;
+    height: 100%;
+}
+
+.grid-main-1 {
+    margin: 5px;
+    grid-area: main-1;
+}
+
+.grid-main-2 {
+    margin: 5px;
+    grid-area: main-2;
+}
+
+.grid-main-1 p,
+.grid-main-2 p {
+    padding: 0;
+    margin: 0;
+}
+
+.grid-foot {
+    grid-area: foot;
+    align-self: center;
+    justify-self: center;
+}
+
+.friend-game-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 50px 75px 30px;
+    grid-template-areas: "head head" "main-1 main-2" "foot foot";
+}
