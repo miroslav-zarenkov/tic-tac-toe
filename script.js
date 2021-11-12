@@ -41,27 +41,39 @@ popupGameModeAI.textContent = "Against AI";
 popupGameModeContainer.appendChild(popupGameModeAI);
 
 const popupGameModeFriendSetup = document.createElement("div");
-
-popupGameModeFriendSetup.classList.add("popup", "red", "none");
+popupGameModeFriendSetup.classList.add("friend-game-grid", "popup", "red", "none");
 mainContainer.appendChild(popupGameModeFriendSetup);
 
 const popupGameModeFriendSetupHead = document.createElement("div");
 popupGameModeFriendSetupHead.textContent = "Game against friend setup";
 popupGameModeFriendSetup.appendChild(popupGameModeFriendSetupHead);
 
+const popupGameModeFriendSetupMainOne = document.createElement("div");
+popupGameModeFriendSetup.appendChild(popupGameModeFriendSetupMainOne);
+
+const popupGameModeFriendSetupMainTwo = document.createElement("div");
+popupGameModeFriendSetup.appendChild(popupGameModeFriendSetupMainTwo);
+
+const popupGameModeFriendSetupFoot = document.createElement("div");
+popupGameModeFriendSetup.appendChild(popupGameModeFriendSetupFoot);
+
 const popupGameModeFriendSetupParagraphPlayerOne = document.createElement("p");
 popupGameModeFriendSetupParagraphPlayerOne.textContent = "Player one name";
-popupGameModeFriendSetup.appendChild(popupGameModeFriendSetupParagraphPlayerOne);
+popupGameModeFriendSetupMainOne.appendChild(popupGameModeFriendSetupParagraphPlayerOne);
 
 const popupGameModeFriendSetupInputPlayerOne = document.createElement("input");
-popupGameModeFriendSetup.appendChild(popupGameModeFriendSetupInputPlayerOne);
+popupGameModeFriendSetupMainOne.appendChild(popupGameModeFriendSetupInputPlayerOne);
 
 const popupGameModeFriendSetupParagraphPlayerTwo = document.createElement("p");
 popupGameModeFriendSetupParagraphPlayerTwo.textContent = "Player two name";
-popupGameModeFriendSetup.appendChild(popupGameModeFriendSetupParagraphPlayerTwo);
+popupGameModeFriendSetupMainTwo.appendChild(popupGameModeFriendSetupParagraphPlayerTwo);
 
 const popupGameModeFriendSetupInputPlayerTwo = document.createElement("input");
-popupGameModeFriendSetup.appendChild(popupGameModeFriendSetupInputPlayerTwo);
+popupGameModeFriendSetupMainTwo.appendChild(popupGameModeFriendSetupInputPlayerTwo);
+
+const popupGameModeFriendSetupButton = document.createElement("button");
+popupGameModeFriendSetupButton.textContent = "Submit";
+popupGameModeFriendSetupFoot.appendChild(popupGameModeFriendSetupButton);
 
 //game
 const gameBoard = (() => {
