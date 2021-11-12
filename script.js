@@ -104,6 +104,7 @@ popupGameModeFriendButtonOPlayerTwo.value = "O";
 popupGameModeFriendSetupMainTwo.appendChild(popupGameModeFriendButtonOPlayerTwo);
 
 const popupGameModeFriendSetupButton = document.createElement("button");
+popupGameModeFriendSetupButton.classList.add("submit-two-players");
 popupGameModeFriendSetupButton.textContent = "Submit";
 popupGameModeFriendSetupFoot.appendChild(popupGameModeFriendSetupButton);
 
@@ -130,7 +131,7 @@ const playerFactory = (name, mark) => {
 };
 
 //const playerOne = playerFactory("Vasya", "x");
-const playerTwo = playerFactory("Petya", "o");
+// const playerTwo = playerFactory("Petya", "o");
 const playerAI = playerFactory("Mr. Robot", "o");
 
 const renderGameField = (() => {
@@ -150,6 +151,7 @@ const game = (() => {
     let playerOneMark;
     let playerTwoMark;
     let playerOne;
+    let playerTwo;
     let gameContainerDivs = document.querySelectorAll(".game-field");
 
     const vsFriend = () => {
@@ -280,38 +282,48 @@ const game = (() => {
     }
 
     const setPlayerOneMarkX = () => {
-        playerOneMark = "X";
-        playerTwoMark = "O";
+        playerOneMark = "x";
+        playerTwoMark = "o";
         return { playerOneMark, playerTwoMark };
     }
 
     const setPlayerOneMarkO = () => {
-        playerOneMark = "O";
-        playerTwoMark = "X";
+        playerOneMark = "o";
+        playerTwoMark = "x";
         return { playerOneMark, playerTwoMark };
     }
 
-    const setPlayerOneProfile = () => {
-        playerOne = playerFactory("THREE", playerOneMark);
-        return playerOne;
-    };
+    // const setPlayerOneProfile = () => {
+    //     playerOne = playerFactory("THREE", playerOneMark);
+    //     return playerOne;
+    // };
 
     const setPlayerTwoMarkX = () => {
-        playerOneMark = "O";
-        playerTwoMark = "X";
+        playerOneMark = "o";
+        playerTwoMark = "x";
         return { playerOneMark, playerTwoMark };
     }
 
     const setPlayerTwoMarkO = () => {
-        playerOneMark = "X";
-        playerTwoMark = "O";
+        playerOneMark = "x";
+        playerTwoMark = "o";
         return { playerOneMark, playerTwoMark };
     }
 
+    function submitTwoPlayers() {
+        //console.log({ playerOneMark, playerTwoMark });
+        const playerOne = playerFactory("DICL", playerOneMark);
+        return { playerOne };
+    }
+    const submitTwoPlayersButton = document.querySelector(".submit-two-players");
+    submitTwoPlayersButton.addEventListener("click",
+        setPlayerOneMarkX(),
+        playerOne = playerFactory("batman", playerOneMark),
+        playerTwo = playerFactory("robin", playerTwoMark));
 
 
     popupGameModeFriend.addEventListener("click", chooseGameModeFriendSetup);
     popupGameModeAI.addEventListener("click", chooseGameModeButtonAI);
     resetButton.addEventListener("click", resetGame);
-    return { resetGame, setPlayerOneMarkX, setPlayerOneMarkO, setPlayerOneProfile, playerOne };
+    return { resetGame, setPlayerOneMarkX, setPlayerOneMarkO, playerOne, playerTwo };
 })();
