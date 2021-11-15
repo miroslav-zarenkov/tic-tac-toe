@@ -1,4 +1,5 @@
 //UI
+
 const mainContainer = document.createElement("div");
 mainContainer.classList.add("main-container");
 document.body.appendChild(mainContainer);
@@ -158,16 +159,16 @@ const game = (() => {
         gameContainerDivs.forEach(div => {
             div.addEventListener("click", (e) => {
                 if ((div.textContent === "") && (playerTurn === 0)) {
-                    gameBoard.gameBoardArray[div.getAttribute("data-number")] = playerOne.mark;
-                    div.textContent = playerOne.mark;
+                    gameBoard.gameBoardArray[div.getAttribute("data-number")] = game.submitTwoPlayers().playerOne.mark;
+                    div.textContent = game.submitTwoPlayers().playerOne.mark;
                     playerTurn = 1;
-                    player = playerOne.name;
+                    player = game.submitTwoPlayers().playerOne.name;
                     checkWin();
                 } else if ((div.textContent === "") && (playerTurn === 1)) {
-                    gameBoard.gameBoardArray[div.getAttribute("data-number")] = playerTwo.mark;
-                    div.textContent = playerTwo.mark;
+                    gameBoard.gameBoardArray[div.getAttribute("data-number")] = game.submitTwoPlayers().playerTwo.mark;
+                    div.textContent = game.submitTwoPlayers().playerTwo.mark;
                     playerTurn = 0;
-                    player = playerTwo.name;
+                    player = game.submitTwoPlayers().playerTwo.name;
                     checkWin();
                 } else {
                     return;
@@ -293,11 +294,6 @@ const game = (() => {
         return { playerOneMark, playerTwoMark };
     }
 
-    // const setPlayerOneProfile = () => {
-    //     playerOne = playerFactory("THREE", playerOneMark);
-    //     return playerOne;
-    // };
-
     const setPlayerTwoMarkX = () => {
         playerOneMark = "o";
         playerTwoMark = "x";
@@ -311,19 +307,35 @@ const game = (() => {
     }
 
     function submitTwoPlayers() {
-        //console.log({ playerOneMark, playerTwoMark });
-        const playerOne = playerFactory("DICL", playerOneMark);
-        return { playerOne };
+        if (popupGameModeFriendSetupInputPlayerOne.value == "") {
+            popupGameModeFriendSetupInputPlayerOne.value = popupGameModeFriendSetupInputPlayerOne.placeholder;
+        };
+        if (popupGameModeFriendSetupInputPlayerTwo.value == "") {
+            popupGameModeFriendSetupInputPlayerTwo.value = popupGameModeFriendSetupInputPlayerTwo.placeholder;
+        };
+        if ((typeof playerOneMark !== "undefined") || (typeof playerTwoMark !== "undefined")) {
+            const playerOne = playerFactory(popupGameModeFriendSetupInputPlayerOne.value, playerOneMark);
+            console.log(playerOne);
+            const playerTwo = playerFactory(popupGameModeFriendSetupInputPlayerTwo.value, playerTwoMark);
+            console.log(playerTwo);
+            popupGameModeFriendSetup.classList.add("none");
+            popupGameModeFriendSetup.classList.remove("friend-game-grid");
+            gameContainer.classList.remove("none");
+            vsFriend();
+            return { playerOne, playerTwo };
+        } else {
+            alert("Choose player mark");
+            return;
+        }
     }
-    const submitTwoPlayersButton = document.querySelector(".submit-two-players");
-    submitTwoPlayersButton.addEventListener("click",
-        setPlayerOneMarkX(),
-        playerOne = playerFactory("batman", playerOneMark),
-        playerTwo = playerFactory("robin", playerTwoMark));
 
-
+    popupGameModeFriendButtonXPlayerOne.addEventListener("click", setPlayerOneMarkX)
+    popupGameModeFriendButtonOPlayerOne.addEventListener("click", setPlayerOneMarkO)
+    popupGameModeFriendButtonXPlayerTwo.addEventListener("click", setPlayerTwoMarkX)
+    popupGameModeFriendButtonOPlayerTwo.addEventListener("click", setPlayerTwoMarkO)
+    popupGameModeFriendSetupButton.addEventListener("click", submitTwoPlayers);
     popupGameModeFriend.addEventListener("click", chooseGameModeFriendSetup);
     popupGameModeAI.addEventListener("click", chooseGameModeButtonAI);
     resetButton.addEventListener("click", resetGame);
-    return { resetGame, setPlayerOneMarkX, setPlayerOneMarkO, playerOne, playerTwo };
+    return { resetGame, setPlayerOneMarkX, setPlayerOneMarkO, submitTwoPlayers, playerOne, playerTwo, randomDiv };
 })();
