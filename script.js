@@ -176,7 +176,16 @@ const gameBoard = (() => {
         "",
         ""
     ];
-    return { gameBoardArray };
+    const renderGameField = () => {
+        for (let i = 0; i < gameBoard.gameBoardArray.length; i++) {
+            let gameContainerDiv = document.createElement("div");
+            gameContainerDiv.classList.add("game-field");
+            gameContainerDiv.setAttribute("data-number", i);
+            gameContainerDiv.textContent = gameBoard.gameBoardArray[i];
+            gameContainer.appendChild(gameContainerDiv);
+        }
+    }
+    return { gameBoardArray, renderGameField };
 })();
 
 const playerFactory = (name, mark) => {
@@ -187,15 +196,19 @@ const playerFactory = (name, mark) => {
 
 const playerAI = playerFactory("Mr. Robot", "");
 
-const renderGameField = (() => {
-    for (let i = 0; i < gameBoard.gameBoardArray.length; i++) {
-        let gameContainerDiv = document.createElement("div");
-        gameContainerDiv.classList.add("game-field");
-        gameContainerDiv.setAttribute("data-number", i);
-        gameContainerDiv.textContent = gameBoard.gameBoardArray[i];
-        gameContainer.appendChild(gameContainerDiv);
-    }
-})();
+// const renderGameField = (() => {
+//     for (let i = 0; i < gameBoard.gameBoardArray.length; i++) {
+//         let gameContainerDiv = document.createElement("div");
+//         gameContainerDiv.classList.add("game-field");
+//         gameContainerDiv.setAttribute("data-number", i);
+//         gameContainerDiv.textContent = gameBoard.gameBoardArray[i];
+//         gameContainer.appendChild(gameContainerDiv);
+//     }
+// })();
+
+const resetGame = () => {
+    game();
+}
 
 const game = (() => {
     let gameModeAI;
@@ -205,9 +218,10 @@ const game = (() => {
     let playerTwoMark;
     let playerOne;
     let playerTwo;
-    let gameContainerDivs = document.querySelectorAll(".game-field");
+
 
     const vsFriend = () => {
+        let gameContainerDivs = document.querySelectorAll(".game-field");
         gameContainerDivs.forEach(div => {
             div.addEventListener("click", (e) => {
                 if ((div.textContent === "") && (playerTurn === 0)) {
@@ -230,6 +244,7 @@ const game = (() => {
     };
 
     const vsAI = () => {
+        let gameContainerDivs = document.querySelectorAll(".game-field");
         gameContainerDivs.forEach(div => {
             div.addEventListener("click", (e) => {
                 if ((div.textContent === "") && (playerTurn === 0)) {
@@ -277,6 +292,7 @@ const game = (() => {
     }
 
     const resetBoard = () => {
+        let gameContainerDivs = document.querySelectorAll(".game-field");
         gameContainerDivs.forEach(div => {
             div.textContent = "";
             gameBoard.gameBoardArray[div.getAttribute("data-number")] = "";
@@ -293,6 +309,7 @@ const game = (() => {
     };
 
     const aiTurn = () => {
+        let gameContainerDivs = document.querySelectorAll(".game-field");
         if (game.submitAIPlayers().playerOne.mark === "x") {
             playerAI.mark = "o";
         } else {
@@ -317,7 +334,7 @@ const game = (() => {
         popupGameModeContainer.classList.add("none");
         popupGameModeFriendSetup.classList.add("friend-game-grid");
         gameModeAI = 0;
-
+        gameBoard.renderGameField();
     }
 
     const setPlayerOneMarkX = () => {
@@ -374,6 +391,7 @@ const game = (() => {
         popupGameModeContainer.classList.add("none");
         popupGameModeAISetup.classList.add("friend-game-grid");
         gameModeAI = 1;
+        gameBoard.renderGameField();
     }
 
     const submitAIPlayers = () => {
