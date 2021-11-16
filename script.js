@@ -1,4 +1,3 @@
-//UI
 const mainContainer = document.createElement("div");
 mainContainer.classList.add("main-container");
 document.body.appendChild(mainContainer);
@@ -16,6 +15,11 @@ const resetBoardButton = document.createElement("button");
 resetBoardButton.textContent = "Reset board";
 resetBoardButton.classList.add("reset-button", "none");
 mainContainer.appendChild(resetBoardButton);
+
+const resetGameButton = document.createElement("button");
+resetGameButton.textContent = "Reset game";
+resetGameButton.classList.add("reset-button", "none");
+mainContainer.appendChild(resetGameButton);
 
 const popupWin = document.createElement("div");
 popupWin.classList.add("popup", "red", "none");
@@ -70,7 +74,7 @@ popupGameModeFriendSetupMainOne.appendChild(popupGameModeFriendSetupParagraphPla
 
 const popupGameModeFriendSetupInputPlayerOne = document.createElement("input");
 popupGameModeFriendSetupInputPlayerOne.classList.add("player-one-input");
-popupGameModeFriendSetupInputPlayerOne.placeholder = "Player 1";
+popupGameModeFriendSetupInputPlayerOne.placeholder = "Player 1 name";
 popupGameModeFriendSetupMainOne.appendChild(popupGameModeFriendSetupInputPlayerOne);
 
 const popupGameModeFriendButtonXPlayerOne = document.createElement("button");
@@ -91,7 +95,7 @@ popupGameModeFriendSetupMainTwo.appendChild(popupGameModeFriendSetupParagraphPla
 
 const popupGameModeFriendSetupInputPlayerTwo = document.createElement("input");
 popupGameModeFriendSetupInputPlayerTwo.classList.add("player-two-input");
-popupGameModeFriendSetupInputPlayerTwo.placeholder = "Player 2";
+popupGameModeFriendSetupInputPlayerTwo.placeholder = "Player 2 name";
 popupGameModeFriendSetupMainTwo.appendChild(popupGameModeFriendSetupInputPlayerTwo);
 
 const popupGameModeFriendButtonXPlayerTwo = document.createElement("button");
@@ -176,6 +180,7 @@ const gameBoard = (() => {
         "",
         ""
     ];
+
     const renderGameField = () => {
         for (let i = 0; i < gameBoard.gameBoardArray.length; i++) {
             let gameContainerDiv = document.createElement("div");
@@ -184,8 +189,16 @@ const gameBoard = (() => {
             gameContainerDiv.textContent = gameBoard.gameBoardArray[i];
             gameContainer.appendChild(gameContainerDiv);
         }
-    }
-    return { gameBoardArray, renderGameField };
+    };
+
+    const removeGameField = () => {
+        let gameContainer = document.querySelector(".game-container");
+        while (gameContainer.firstChild) {
+            gameContainer.removeChild(gameContainer.lastChild);
+        }
+    };
+
+    return { gameBoardArray, renderGameField, removeGameField };
 })();
 
 const playerFactory = (name, mark) => {
@@ -194,31 +207,12 @@ const playerFactory = (name, mark) => {
     return { name, mark };
 };
 
-const playerAI = playerFactory("Mr. Robot", "");
-
-// const renderGameField = (() => {
-//     for (let i = 0; i < gameBoard.gameBoardArray.length; i++) {
-//         let gameContainerDiv = document.createElement("div");
-//         gameContainerDiv.classList.add("game-field");
-//         gameContainerDiv.setAttribute("data-number", i);
-//         gameContainerDiv.textContent = gameBoard.gameBoardArray[i];
-//         gameContainer.appendChild(gameContainerDiv);
-//     }
-// })();
-
-const resetGame = () => {
-    game();
-}
-
 const game = (() => {
-    let gameModeAI;
     let playerTurn = 0;
     let player = "";
     let playerOneMark;
     let playerTwoMark;
-    let playerOne;
-    let playerTwo;
-
+    const playerAI = playerFactory("Mr. Robot", "");
 
     const vsFriend = () => {
         let gameContainerDivs = document.querySelectorAll(".game-field");
@@ -269,7 +263,6 @@ const game = (() => {
             ((gameBoard.gameBoardArray[3] !== "") && (gameBoard.gameBoardArray[3] === gameBoard.gameBoardArray[4]) && (gameBoard.gameBoardArray[3] === gameBoard.gameBoardArray[5])) ||
             ((gameBoard.gameBoardArray[6] !== "") && (gameBoard.gameBoardArray[6] === gameBoard.gameBoardArray[7]) && (gameBoard.gameBoardArray[6] === gameBoard.gameBoardArray[8])) ||
             ((gameBoard.gameBoardArray[2] !== "") && (gameBoard.gameBoardArray[2] === gameBoard.gameBoardArray[4]) && (gameBoard.gameBoardArray[2] === gameBoard.gameBoardArray[6]))) {
-            console.log(`${player} won!`);
             popupWin.textContent = `${player} won!`;
             popupWin.appendChild(popupWinResetButton);
             popupWin.classList.remove("none");
@@ -278,7 +271,6 @@ const game = (() => {
             player = "";
             return true;
         } else if (gameBoard.gameBoardArray.every(elem => elem !== "")) {
-            console.log("TIE!");
             popupWin.textContent = "TIE!";
             popupWin.appendChild(popupWinResetButton);
             popupWin.classList.remove("none");
@@ -289,7 +281,7 @@ const game = (() => {
         } else {
             return;
         }
-    }
+    };
 
     const resetBoard = () => {
         let gameContainerDivs = document.querySelectorAll(".game-field");
@@ -333,40 +325,37 @@ const game = (() => {
         popupGameModeFriendSetup.classList.remove("none");
         popupGameModeContainer.classList.add("none");
         popupGameModeFriendSetup.classList.add("friend-game-grid");
-        gameModeAI = 0;
         gameBoard.renderGameField();
-    }
+    };
 
     const setPlayerOneMarkX = () => {
         playerOneMark = "x";
         playerTwoMark = "o";
         return { playerOneMark, playerTwoMark };
-    }
+    };
 
     const setPlayerOneMarkO = () => {
         playerOneMark = "o";
         playerTwoMark = "x";
         return { playerOneMark, playerTwoMark };
-    }
+    };
 
     const setPlayerTwoMarkX = () => {
         playerOneMark = "o";
         playerTwoMark = "x";
         return { playerOneMark, playerTwoMark };
-    }
+    };
 
     const setPlayerTwoMarkO = () => {
         playerOneMark = "x";
         playerTwoMark = "o";
         return { playerOneMark, playerTwoMark };
-    }
+    };
 
     const submitTwoPlayers = () => {
         if ((typeof playerOneMark !== "undefined") || (typeof playerTwoMark !== "undefined")) {
             const playerOne = playerFactory(popupGameModeFriendSetupInputPlayerOne.value, playerOneMark);
-            console.log(playerOne);
             const playerTwo = playerFactory(popupGameModeFriendSetupInputPlayerTwo.value, playerTwoMark);
-            console.log(playerTwo);
             if (popupGameModeFriendSetupInputPlayerOne.value == "") {
                 popupGameModeFriendSetupInputPlayerOne.value = popupGameModeFriendSetupInputPlayerOne.placeholder;
             };
@@ -377,27 +366,26 @@ const game = (() => {
             popupGameModeFriendSetup.classList.remove("friend-game-grid");
             gameContainer.classList.remove("none");
             resetBoardButton.classList.remove("none");
+            resetGameButton.classList.remove("none");
+            popupGameModeFriendSetupMarkAlert.textContent = "";
             vsFriend();
             return { playerOne, playerTwo };
         } else {
             popupGameModeFriendSetupMarkAlert.textContent = "Choose players' marks";
             return;
         }
-
-    }
+    };
 
     const chooseGameModeAISetup = () => {
         popupGameModeAISetup.classList.remove("none");
         popupGameModeContainer.classList.add("none");
         popupGameModeAISetup.classList.add("friend-game-grid");
-        gameModeAI = 1;
         gameBoard.renderGameField();
-    }
+    };
 
     const submitAIPlayers = () => {
         if (typeof playerOneMark !== "undefined") {
             const playerOne = playerFactory(popupGameModeAISetupInputPlayerOne.value, playerOneMark);
-            console.log(playerOne);
             if (popupGameModeAISetupInputPlayerOne.value == "") {
                 popupGameModeAISetupInputPlayerOne.value = popupGameModeAISetupInputPlayerOne.placeholder;
             };
@@ -405,13 +393,33 @@ const game = (() => {
             popupGameModeAISetup.classList.remove("friend-game-grid");
             gameContainer.classList.remove("none");
             resetBoardButton.classList.remove("none");
+            resetGameButton.classList.remove("none");
+            popupGameModeAISetupMarkAlert.textContent = "";
             vsAI();
             return { playerOne };
         } else {
-            popupGameModeAISetupMarkAlert.textContent = "Choose players' marks";
+            popupGameModeAISetupMarkAlert.textContent = "Choose player's mark";
             return;
         }
-    }
+    };
+
+    const resetGame = () => {
+        resetBoard();
+        popupGameModeFriendSetupInputPlayerOne.value = "";
+        popupGameModeFriendSetupInputPlayerOne.placeholder = "Player 1 name";
+        popupGameModeFriendSetupInputPlayerTwo.value = "";
+        popupGameModeFriendSetupInputPlayerTwo.placeholder = "Player 2 name";
+        popupGameModeAISetupInputPlayerOne.value = "";
+        popupGameModeAISetupInputPlayerOne.placeholder = "Player name";
+        playerOneMark = undefined;
+        playerTwoMark = undefined;
+        gameBoard.removeGameField();
+        popupGameModeContainer.classList.remove("none");
+        gameContainer.classList.add("none");
+        resetBoardButton.classList.add("none");
+        resetGameButton.classList.add("none");
+    };
+
     popupGameModeAIButtonXPlayerOne.addEventListener("click", setPlayerOneMarkX);
     popupGameModeAIButtonOPlayerOne.addEventListener("click", setPlayerOneMarkO);
     popupGameModeAISetupButton.addEventListener("click", submitAIPlayers);
@@ -423,6 +431,7 @@ const game = (() => {
     popupGameModeFriend.addEventListener("click", chooseGameModeFriendSetup);
     popupGameModeAI.addEventListener("click", chooseGameModeAISetup);
     popupGameModeAISetupButton.addEventListener("click", submitAIPlayers);
+    resetGameButton.addEventListener("click", resetGame);
     resetBoardButton.addEventListener("click", resetBoard);
     popupWinResetButton.addEventListener("click", resetBoard);
     return { submitTwoPlayers, submitAIPlayers };
