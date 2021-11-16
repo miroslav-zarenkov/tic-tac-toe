@@ -21,6 +21,9 @@ const popupWin = document.createElement("div");
 popupWin.classList.add("popup", "red", "none");
 mainContainer.appendChild(popupWin);
 
+const popupWinResetButton = document.createElement("button");
+popupWinResetButton.textContent = "Play again!"
+
 const popupGameMode = document.createElement("div");
 popupGameMode.classList.add("popup", "red")
 mainContainer.appendChild(popupGameMode);
@@ -251,8 +254,9 @@ const game = (() => {
             ((gameBoard.gameBoardArray[3] !== "") && (gameBoard.gameBoardArray[3] === gameBoard.gameBoardArray[4]) && (gameBoard.gameBoardArray[3] === gameBoard.gameBoardArray[5])) ||
             ((gameBoard.gameBoardArray[6] !== "") && (gameBoard.gameBoardArray[6] === gameBoard.gameBoardArray[7]) && (gameBoard.gameBoardArray[6] === gameBoard.gameBoardArray[8])) ||
             ((gameBoard.gameBoardArray[2] !== "") && (gameBoard.gameBoardArray[2] === gameBoard.gameBoardArray[4]) && (gameBoard.gameBoardArray[2] === gameBoard.gameBoardArray[6]))) {
-            console.log(`${player} wins!`);
-            popupWin.textContent = `${player} wins!`;
+            console.log(`${player} won!`);
+            popupWin.textContent = `${player} won!`;
+            popupWin.appendChild(popupWinResetButton);
             popupWin.classList.remove("none");
             gameContainer.classList.add("disabled");
             playerTurn = 0;
@@ -261,6 +265,7 @@ const game = (() => {
         } else if (gameBoard.gameBoardArray.every(elem => elem !== "")) {
             console.log("TIE!");
             popupWin.textContent = "TIE!";
+            popupWin.appendChild(popupWinResetButton);
             popupWin.classList.remove("none");
             gameContainer.classList.add("disabled");
             playerTurn = 0;
@@ -397,5 +402,6 @@ const game = (() => {
     popupGameModeAI.addEventListener("click", chooseGameModeAISetup);
     popupGameModeAISetupButton.addEventListener("click", submitAIPlayers);
     resetButton.addEventListener("click", resetGame);
+    popupWinResetButton.addEventListener("click", resetGame);
     return { submitTwoPlayers, submitAIPlayers };
 })();
