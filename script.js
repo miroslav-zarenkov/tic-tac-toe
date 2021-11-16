@@ -12,10 +12,10 @@ const gameContainer = document.createElement("div");
 gameContainer.classList.add("game-container", "none");
 mainContainer.appendChild(gameContainer);
 
-const resetButton = document.createElement("button");
-resetButton.textContent = "Reset";
-resetButton.classList.add("reset-button");
-mainContainer.appendChild(resetButton);
+const resetBoardButton = document.createElement("button");
+resetBoardButton.textContent = "Reset board";
+resetBoardButton.classList.add("reset-button", "none");
+mainContainer.appendChild(resetBoardButton);
 
 const popupWin = document.createElement("div");
 popupWin.classList.add("popup", "red", "none");
@@ -276,7 +276,7 @@ const game = (() => {
         }
     }
 
-    const resetGame = () => {
+    const resetBoard = () => {
         gameContainerDivs.forEach(div => {
             div.textContent = "";
             gameBoard.gameBoardArray[div.getAttribute("data-number")] = "";
@@ -317,6 +317,7 @@ const game = (() => {
         popupGameModeContainer.classList.add("none");
         popupGameModeFriendSetup.classList.add("friend-game-grid");
         gameModeAI = 0;
+
     }
 
     const setPlayerOneMarkX = () => {
@@ -344,6 +345,7 @@ const game = (() => {
     }
 
     const submitTwoPlayers = () => {
+        resetBoardButton.classList.remove("none");
         if ((typeof playerOneMark !== "undefined") || (typeof playerTwoMark !== "undefined")) {
             const playerOne = playerFactory(popupGameModeFriendSetupInputPlayerOne.value, playerOneMark);
             console.log(playerOne);
@@ -374,6 +376,7 @@ const game = (() => {
     }
 
     const submitAIPlayers = () => {
+        resetBoardButton.classList.remove("none");
         if (typeof playerOneMark !== "undefined") {
             const playerOne = playerFactory(popupGameModeAISetupInputPlayerOne.value, playerOneMark);
             console.log(playerOne);
@@ -401,7 +404,7 @@ const game = (() => {
     popupGameModeFriend.addEventListener("click", chooseGameModeFriendSetup);
     popupGameModeAI.addEventListener("click", chooseGameModeAISetup);
     popupGameModeAISetupButton.addEventListener("click", submitAIPlayers);
-    resetButton.addEventListener("click", resetGame);
-    popupWinResetButton.addEventListener("click", resetGame);
+    resetBoardButton.addEventListener("click", resetBoard);
+    popupWinResetButton.addEventListener("click", resetBoard);
     return { submitTwoPlayers, submitAIPlayers };
 })();
