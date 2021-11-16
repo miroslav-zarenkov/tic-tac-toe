@@ -345,7 +345,6 @@ const game = (() => {
     }
 
     const submitTwoPlayers = () => {
-        resetBoardButton.classList.remove("none");
         if ((typeof playerOneMark !== "undefined") || (typeof playerTwoMark !== "undefined")) {
             const playerOne = playerFactory(popupGameModeFriendSetupInputPlayerOne.value, playerOneMark);
             console.log(playerOne);
@@ -360,12 +359,14 @@ const game = (() => {
             popupGameModeFriendSetup.classList.add("none");
             popupGameModeFriendSetup.classList.remove("friend-game-grid");
             gameContainer.classList.remove("none");
+            resetBoardButton.classList.remove("none");
             vsFriend();
             return { playerOne, playerTwo };
         } else {
             popupGameModeFriendSetupMarkAlert.textContent = "Choose players' marks";
             return;
         }
+
     }
 
     const chooseGameModeAISetup = () => {
@@ -376,7 +377,6 @@ const game = (() => {
     }
 
     const submitAIPlayers = () => {
-        resetBoardButton.classList.remove("none");
         if (typeof playerOneMark !== "undefined") {
             const playerOne = playerFactory(popupGameModeAISetupInputPlayerOne.value, playerOneMark);
             console.log(playerOne);
@@ -386,6 +386,7 @@ const game = (() => {
             popupGameModeAISetup.classList.add("none");
             popupGameModeAISetup.classList.remove("friend-game-grid");
             gameContainer.classList.remove("none");
+            resetBoardButton.classList.remove("none");
             vsAI();
             return { playerOne };
         } else {
