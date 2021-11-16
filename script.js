@@ -1,5 +1,4 @@
 //UI
-
 const mainContainer = document.createElement("div");
 mainContainer.classList.add("main-container");
 document.body.appendChild(mainContainer);
@@ -104,12 +103,64 @@ popupGameModeFriendButtonOPlayerTwo.textContent = "O";
 popupGameModeFriendButtonOPlayerTwo.value = "O";
 popupGameModeFriendSetupMainTwo.appendChild(popupGameModeFriendButtonOPlayerTwo);
 
+const popupGameModeFriendSetupMarkAlert = document.createElement("div");
+popupGameModeFriendSetupFoot.appendChild(popupGameModeFriendSetupMarkAlert);
+
 const popupGameModeFriendSetupButton = document.createElement("button");
 popupGameModeFriendSetupButton.classList.add("submit-two-players");
 popupGameModeFriendSetupButton.textContent = "Submit";
 popupGameModeFriendSetupFoot.appendChild(popupGameModeFriendSetupButton);
 
-//game
+const popupGameModeAISetup = document.createElement("div");
+popupGameModeAISetup.classList.add("popup", "red", "none");
+mainContainer.appendChild(popupGameModeAISetup);
+
+const popupGameModeAISetupHead = document.createElement("div");
+popupGameModeAISetupHead.classList.add("grid-head");
+popupGameModeAISetupHead.textContent = "Game against friend setup";
+popupGameModeAISetup.appendChild(popupGameModeAISetupHead);
+
+const popupGameModeAISetupMainOne = document.createElement("div");
+popupGameModeAISetupMainOne.classList.add("grid-main-1")
+popupGameModeAISetup.appendChild(popupGameModeAISetupMainOne);
+
+const popupGameModeAISetupMainTwo = document.createElement("div");
+popupGameModeAISetupMainTwo.classList.add("grid-main-2");
+popupGameModeAISetup.appendChild(popupGameModeAISetupMainTwo);
+
+const popupGameModeAISetupFoot = document.createElement("div");
+popupGameModeAISetupFoot.classList.add("grid-foot");
+popupGameModeAISetup.appendChild(popupGameModeAISetupFoot);
+
+const popupGameModeAISetupParagraphPlayerOne = document.createElement("p");
+popupGameModeAISetupParagraphPlayerOne.textContent = "Player name";
+popupGameModeAISetupMainOne.appendChild(popupGameModeAISetupParagraphPlayerOne);
+
+const popupGameModeAISetupInputPlayerOne = document.createElement("input");
+popupGameModeAISetupInputPlayerOne.classList.add("player-one-input");
+popupGameModeAISetupInputPlayerOne.placeholder = "Player name";
+popupGameModeAISetupMainOne.appendChild(popupGameModeAISetupInputPlayerOne);
+
+const popupGameModeAIButtonXPlayerOne = document.createElement("button");
+popupGameModeAIButtonXPlayerOne.classList.add("player-one-x-button");
+popupGameModeAIButtonXPlayerOne.textContent = "X";
+popupGameModeAIButtonXPlayerOne.value = "X";
+popupGameModeAISetupMainOne.appendChild(popupGameModeAIButtonXPlayerOne);
+
+const popupGameModeAIButtonOPlayerOne = document.createElement("button");
+popupGameModeAIButtonOPlayerOne.classList.add("player-one-o-button");
+popupGameModeAIButtonOPlayerOne.textContent = "O";
+popupGameModeAIButtonOPlayerOne.value = "O";
+popupGameModeAISetupMainOne.appendChild(popupGameModeAIButtonOPlayerOne);
+
+const popupGameModeAISetupMarkAlert = document.createElement("div");
+popupGameModeAISetupFoot.appendChild(popupGameModeAISetupMarkAlert);
+
+const popupGameModeAISetupButton = document.createElement("button");
+popupGameModeAISetupButton.classList.add("submit-ai-players");
+popupGameModeAISetupButton.textContent = "Submit";
+popupGameModeAISetupFoot.appendChild(popupGameModeAISetupButton);
+
 const gameBoard = (() => {
     let gameBoardArray = [
         "",
@@ -131,9 +182,7 @@ const playerFactory = (name, mark) => {
     return { name, mark };
 };
 
-//const playerOne = playerFactory("Vasya", "x");
-// const playerTwo = playerFactory("Petya", "o");
-const playerAI = playerFactory("Mr. Robot", "o");
+const playerAI = playerFactory("Mr. Robot", "");
 
 const renderGameField = (() => {
     for (let i = 0; i < gameBoard.gameBoardArray.length; i++) {
@@ -181,10 +230,10 @@ const game = (() => {
         gameContainerDivs.forEach(div => {
             div.addEventListener("click", (e) => {
                 if ((div.textContent === "") && (playerTurn === 0)) {
-                    gameBoard.gameBoardArray[div.getAttribute("data-number")] = playerOne.mark;
-                    div.textContent = playerOne.mark;
+                    gameBoard.gameBoardArray[div.getAttribute("data-number")] = game.submitAIPlayers().playerOne.mark;
+                    div.textContent = game.submitAIPlayers().playerOne.mark;
                     playerTurn = 1;
-                    player = playerOne.name;
+                    player = game.submitAIPlayers().playerOne.name;
                     if (!checkWin()) {
                         aiTurn();
                     }
@@ -239,6 +288,11 @@ const game = (() => {
     };
 
     const aiTurn = () => {
+        if (game.submitAIPlayers().playerOne.mark === "x") {
+            playerAI.mark = "o";
+        } else {
+            playerAI.mark = "x"
+        }
         let randomNumber = randomDiv();
         if (gameContainerDivs[randomNumber].textContent !== "") {
             aiTurn();
@@ -253,28 +307,6 @@ const game = (() => {
         };
     };
 
-    const chooseGameMode = () => {
-        if (gameModeAI === 1) {
-            vsAI();
-        } else {
-            vsFriend();
-        }
-    };
-
-    const startGame = () => {
-        popupGameModeContainer.classList.add("none");
-        gameContainer.classList.remove("none");
-    };
-
-    const chooseGameModeButtonAI = () => {
-        gameModeAI = 1;
-        chooseGameMode();
-        startGame();
-    }
-    const chooseGameModeButtonFriend = () => {
-        gameModeAI = 0;
-        chooseGameMode();
-    }
     const chooseGameModeFriendSetup = () => {
         popupGameModeFriendSetup.classList.remove("none");
         popupGameModeContainer.classList.add("none");
@@ -306,36 +338,64 @@ const game = (() => {
         return { playerOneMark, playerTwoMark };
     }
 
-    function submitTwoPlayers() {
-        if (popupGameModeFriendSetupInputPlayerOne.value == "") {
-            popupGameModeFriendSetupInputPlayerOne.value = popupGameModeFriendSetupInputPlayerOne.placeholder;
-        };
-        if (popupGameModeFriendSetupInputPlayerTwo.value == "") {
-            popupGameModeFriendSetupInputPlayerTwo.value = popupGameModeFriendSetupInputPlayerTwo.placeholder;
-        };
+    const submitTwoPlayers = () => {
         if ((typeof playerOneMark !== "undefined") || (typeof playerTwoMark !== "undefined")) {
             const playerOne = playerFactory(popupGameModeFriendSetupInputPlayerOne.value, playerOneMark);
             console.log(playerOne);
             const playerTwo = playerFactory(popupGameModeFriendSetupInputPlayerTwo.value, playerTwoMark);
             console.log(playerTwo);
+            if (popupGameModeFriendSetupInputPlayerOne.value == "") {
+                popupGameModeFriendSetupInputPlayerOne.value = popupGameModeFriendSetupInputPlayerOne.placeholder;
+            };
+            if (popupGameModeFriendSetupInputPlayerTwo.value == "") {
+                popupGameModeFriendSetupInputPlayerTwo.value = popupGameModeFriendSetupInputPlayerTwo.placeholder;
+            };
             popupGameModeFriendSetup.classList.add("none");
             popupGameModeFriendSetup.classList.remove("friend-game-grid");
             gameContainer.classList.remove("none");
             vsFriend();
             return { playerOne, playerTwo };
         } else {
-            alert("Choose player mark");
+            popupGameModeFriendSetupMarkAlert.textContent = "Choose players' marks";
             return;
         }
     }
 
-    popupGameModeFriendButtonXPlayerOne.addEventListener("click", setPlayerOneMarkX)
-    popupGameModeFriendButtonOPlayerOne.addEventListener("click", setPlayerOneMarkO)
-    popupGameModeFriendButtonXPlayerTwo.addEventListener("click", setPlayerTwoMarkX)
-    popupGameModeFriendButtonOPlayerTwo.addEventListener("click", setPlayerTwoMarkO)
+    const chooseGameModeAISetup = () => {
+        popupGameModeAISetup.classList.remove("none");
+        popupGameModeContainer.classList.add("none");
+        popupGameModeAISetup.classList.add("friend-game-grid");
+        gameModeAI = 1;
+    }
+
+    const submitAIPlayers = () => {
+        if (typeof playerOneMark !== "undefined") {
+            const playerOne = playerFactory(popupGameModeAISetupInputPlayerOne.value, playerOneMark);
+            console.log(playerOne);
+            if (popupGameModeAISetupInputPlayerOne.value == "") {
+                popupGameModeAISetupInputPlayerOne.value = popupGameModeAISetupInputPlayerOne.placeholder;
+            };
+            popupGameModeAISetup.classList.add("none");
+            popupGameModeAISetup.classList.remove("friend-game-grid");
+            gameContainer.classList.remove("none");
+            vsAI();
+            return { playerOne };
+        } else {
+            popupGameModeAISetupMarkAlert.textContent = "Choose players' marks";
+            return;
+        }
+    }
+    popupGameModeAIButtonXPlayerOne.addEventListener("click", setPlayerOneMarkX);
+    popupGameModeAIButtonOPlayerOne.addEventListener("click", setPlayerOneMarkO);
+    popupGameModeAISetupButton.addEventListener("click", submitAIPlayers);
+    popupGameModeFriendButtonXPlayerOne.addEventListener("click", setPlayerOneMarkX);
+    popupGameModeFriendButtonOPlayerOne.addEventListener("click", setPlayerOneMarkO);
+    popupGameModeFriendButtonXPlayerTwo.addEventListener("click", setPlayerTwoMarkX);
+    popupGameModeFriendButtonOPlayerTwo.addEventListener("click", setPlayerTwoMarkO);
     popupGameModeFriendSetupButton.addEventListener("click", submitTwoPlayers);
     popupGameModeFriend.addEventListener("click", chooseGameModeFriendSetup);
-    popupGameModeAI.addEventListener("click", chooseGameModeButtonAI);
+    popupGameModeAI.addEventListener("click", chooseGameModeAISetup);
+    popupGameModeAISetupButton.addEventListener("click", submitAIPlayers);
     resetButton.addEventListener("click", resetGame);
-    return { resetGame, setPlayerOneMarkX, setPlayerOneMarkO, submitTwoPlayers, playerOne, playerTwo, randomDiv };
+    return { submitTwoPlayers, submitAIPlayers };
 })();

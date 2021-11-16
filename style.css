@@ -111,13 +111,16 @@ body {
 
 .grid-foot {
     grid-area: foot;
-    align-self: center;
-    justify-self: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
 }
 
 .friend-game-grid {
     display: grid;
     grid-template-columns: 1fr;
-    grid-template-rows: 50px 75px 30px;
+    grid-template-rows: 50px 75px 50px;
     grid-template-areas: "head head" "main-1 main-2" "foot foot";
 }
