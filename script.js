@@ -7,6 +7,10 @@ header.classList.add("header");
 header.textContent = "Tic-Tac-Toe"
 mainContainer.appendChild(header);
 
+const scoreBoard = document.createElement("div");
+scoreBoard.textContent = "";
+mainContainer.appendChild(scoreBoard);
+
 const gameContainer = document.createElement("div");
 gameContainer.classList.add("game-container", "none");
 mainContainer.appendChild(gameContainer);
@@ -212,6 +216,10 @@ const game = (() => {
     let player = "";
     let playerOneMark;
     let playerTwoMark;
+    let playerOneScore = 0;
+    let playerTwoScore = 0;
+    let playerAIScore = 0;
+    let gameModeAI = 0;
     const playerAI = playerFactory("Mr. Robot", "");
 
     const vsFriend = () => {
@@ -263,6 +271,17 @@ const game = (() => {
             ((gameBoard.gameBoardArray[3] !== "") && (gameBoard.gameBoardArray[3] === gameBoard.gameBoardArray[4]) && (gameBoard.gameBoardArray[3] === gameBoard.gameBoardArray[5])) ||
             ((gameBoard.gameBoardArray[6] !== "") && (gameBoard.gameBoardArray[6] === gameBoard.gameBoardArray[7]) && (gameBoard.gameBoardArray[6] === gameBoard.gameBoardArray[8])) ||
             ((gameBoard.gameBoardArray[2] !== "") && (gameBoard.gameBoardArray[2] === gameBoard.gameBoardArray[4]) && (gameBoard.gameBoardArray[2] === gameBoard.gameBoardArray[6]))) {
+            if (playerTurn === 1) {
+                playerOneScore = playerOneScore + 1;
+            } else {
+                playerTwoScore = playerTwoScore + 1;
+                playerAIScore = playerAIScore + 1;
+            }
+            if (gameModeAI === 1) {
+                scoreBoard.textContent = `${popupGameModeAISetupInputPlayerOne.value} is ${playerOneMark}: ${playerOneScore} ${playerAI.name} is ${playerAI.mark}: ${playerAIScore}`
+            } else {
+                scoreBoard.textContent = `${popupGameModeFriendSetupInputPlayerOne.value} is ${playerOneMark}: ${playerOneScore} ${popupGameModeFriendSetupInputPlayerTwo.value} is ${playerTwoMark}: ${playerTwoScore}`
+            }
             popupWin.textContent = `${player} won!`;
             popupWin.appendChild(popupWinResetButton);
             popupWin.classList.remove("none");
@@ -302,11 +321,6 @@ const game = (() => {
 
     const aiTurn = () => {
         let gameContainerDivs = document.querySelectorAll(".game-field");
-        if (game.submitAIPlayers().playerOne.mark === "x") {
-            playerAI.mark = "o";
-        } else {
-            playerAI.mark = "x"
-        }
         let randomNumber = randomDiv();
         if (gameContainerDivs[randomNumber].textContent !== "") {
             aiTurn();
@@ -368,6 +382,8 @@ const game = (() => {
             resetBoardButton.classList.remove("none");
             resetGameButton.classList.remove("none");
             popupGameModeFriendSetupMarkAlert.textContent = "";
+            scoreBoard.textContent = `${popupGameModeFriendSetupInputPlayerOne.value} is ${playerOneMark}: ${playerOneScore} ${popupGameModeFriendSetupInputPlayerTwo.value} is ${playerTwoMark}: ${playerTwoScore}`
+            gameModeAI = 0;
             vsFriend();
             return { playerOne, playerTwo };
         } else {
@@ -389,12 +405,19 @@ const game = (() => {
             if (popupGameModeAISetupInputPlayerOne.value == "") {
                 popupGameModeAISetupInputPlayerOne.value = popupGameModeAISetupInputPlayerOne.placeholder;
             };
+            if (playerOneMark === "x") {
+                playerAI.mark = "o";
+            } else {
+                playerAI.mark = "x";
+            }
             popupGameModeAISetup.classList.add("none");
             popupGameModeAISetup.classList.remove("friend-game-grid");
             gameContainer.classList.remove("none");
             resetBoardButton.classList.remove("none");
             resetGameButton.classList.remove("none");
             popupGameModeAISetupMarkAlert.textContent = "";
+            scoreBoard.textContent = `${popupGameModeAISetupInputPlayerOne.value} is ${playerOneMark}: ${playerOneScore} ${playerAI.name} is ${playerAI.mark}: ${playerTwoScore}`
+            gameModeAI = 1;
             vsAI();
             return { playerOne };
         } else {
@@ -405,6 +428,11 @@ const game = (() => {
 
     const resetGame = () => {
         resetBoard();
+        playerOneScore = 0;
+        playerTwoScore = 0;
+        playerAIScore = 0;
+        gameModeAI = 0;
+        scoreBoard.textContent = "";
         popupGameModeFriendSetupInputPlayerOne.value = "";
         popupGameModeFriendSetupInputPlayerOne.placeholder = "Player 1 name";
         popupGameModeFriendSetupInputPlayerTwo.value = "";
