@@ -4,7 +4,7 @@ document.body.appendChild(mainContainer);
 
 const header = document.createElement("div");
 header.classList.add("header");
-header.textContent = "Tic-Tac-Toe"
+header.textContent = "Tic-Tac-Toe";
 mainContainer.appendChild(header);
 
 const scoreBoard = document.createElement("div");
@@ -30,10 +30,10 @@ popupWin.classList.add("popup", "red", "none");
 mainContainer.appendChild(popupWin);
 
 const popupWinResetButton = document.createElement("button");
-popupWinResetButton.textContent = "Play again!"
+popupWinResetButton.textContent = "Play again!";
 
 const popupGameMode = document.createElement("div");
-popupGameMode.classList.add("popup", "red")
+popupGameMode.classList.add("popup", "red");
 mainContainer.appendChild(popupGameMode);
 
 const popupGameModeContainer = document.createElement("div");
@@ -61,7 +61,7 @@ popupGameModeFriendSetupHead.textContent = "Game against friend setup";
 popupGameModeFriendSetup.appendChild(popupGameModeFriendSetupHead);
 
 const popupGameModeFriendSetupMainOne = document.createElement("div");
-popupGameModeFriendSetupMainOne.classList.add("grid-main-1")
+popupGameModeFriendSetupMainOne.classList.add("grid-main-1");
 popupGameModeFriendSetup.appendChild(popupGameModeFriendSetupMainOne);
 
 const popupGameModeFriendSetupMainTwo = document.createElement("div");
@@ -130,11 +130,11 @@ mainContainer.appendChild(popupGameModeAISetup);
 
 const popupGameModeAISetupHead = document.createElement("div");
 popupGameModeAISetupHead.classList.add("grid-head");
-popupGameModeAISetupHead.textContent = "Game against friend setup";
+popupGameModeAISetupHead.textContent = "Game against AI setup";
 popupGameModeAISetup.appendChild(popupGameModeAISetupHead);
 
 const popupGameModeAISetupMainOne = document.createElement("div");
-popupGameModeAISetupMainOne.classList.add("grid-main-1")
+popupGameModeAISetupMainOne.classList.add("grid-main-1");
 popupGameModeAISetup.appendChild(popupGameModeAISetupMainOne);
 
 const popupGameModeAISetupFoot = document.createElement("div");
@@ -241,7 +241,7 @@ const game = (() => {
                     return;
                 }
             });
-        })
+        });
     };
 
     const vsAI = () => {
@@ -257,8 +257,8 @@ const game = (() => {
                         aiTurn();
                     }
                 }
-            })
-        })
+            });
+        });
     };
 
     const checkWin = () => {
@@ -277,9 +277,9 @@ const game = (() => {
                 playerAIScore = playerAIScore + 1;
             }
             if (gameModeAI === 1) {
-                scoreBoard.textContent = `${popupGameModeAISetupInputPlayerOne.value} is ${playerOneMark}: ${playerOneScore} ${playerAI.name} is ${playerAI.mark}: ${playerAIScore}`
+                scoreBoard.textContent = `${popupGameModeAISetupInputPlayerOne.value} is ${playerOneMark}: ${playerOneScore} ${playerAI.name} is ${playerAI.mark}: ${playerAIScore}`;
             } else {
-                scoreBoard.textContent = `${popupGameModeFriendSetupInputPlayerOne.value} is ${playerOneMark}: ${playerOneScore} ${popupGameModeFriendSetupInputPlayerTwo.value} is ${playerTwoMark}: ${playerTwoScore}`
+                scoreBoard.textContent = `${popupGameModeFriendSetupInputPlayerOne.value} is ${playerOneMark}: ${playerOneScore} ${popupGameModeFriendSetupInputPlayerTwo.value} is ${playerTwoMark}: ${playerTwoScore}`;
             }
             popupWin.textContent = `${player} won!`;
             popupWin.appendChild(popupWinResetButton);
@@ -307,7 +307,7 @@ const game = (() => {
             div.textContent = "";
             gameBoard.gameBoardArray[div.getAttribute("data-number")] = "";
             gameContainer.classList.remove("disabled");
-        })
+        });
         playerTurn = 0;
         popupWin.classList.add("none");
     };
@@ -331,7 +331,7 @@ const game = (() => {
             checkWin();
         } else {
             return;
-        };
+        }
     };
 
     const chooseGameModeFriendSetup = () => {
@@ -371,17 +371,17 @@ const game = (() => {
             const playerTwo = playerFactory(popupGameModeFriendSetupInputPlayerTwo.value, playerTwoMark);
             if (popupGameModeFriendSetupInputPlayerOne.value == "") {
                 popupGameModeFriendSetupInputPlayerOne.value = popupGameModeFriendSetupInputPlayerOne.placeholder;
-            };
+            }
             if (popupGameModeFriendSetupInputPlayerTwo.value == "") {
                 popupGameModeFriendSetupInputPlayerTwo.value = popupGameModeFriendSetupInputPlayerTwo.placeholder;
-            };
+            }
             popupGameModeFriendSetup.classList.add("none");
             popupGameModeFriendSetup.classList.remove("friend-game-grid");
             gameContainer.classList.remove("none");
             resetBoardButton.classList.remove("none");
             resetGameButton.classList.remove("none");
             popupGameModeFriendSetupMarkAlert.textContent = "";
-            scoreBoard.textContent = `${popupGameModeFriendSetupInputPlayerOne.value} is ${playerOneMark}: ${playerOneScore} ${popupGameModeFriendSetupInputPlayerTwo.value} is ${playerTwoMark}: ${playerTwoScore}`
+            scoreBoard.textContent = `${popupGameModeFriendSetupInputPlayerOne.value} is ${playerOneMark}: ${playerOneScore} ${popupGameModeFriendSetupInputPlayerTwo.value} is ${playerTwoMark}: ${playerTwoScore}`;
             gameModeAI = 0;
             vsFriend();
             return { playerOne, playerTwo };
@@ -403,7 +403,7 @@ const game = (() => {
             const playerOne = playerFactory(popupGameModeAISetupInputPlayerOne.value, playerOneMark);
             if (popupGameModeAISetupInputPlayerOne.value == "") {
                 popupGameModeAISetupInputPlayerOne.value = popupGameModeAISetupInputPlayerOne.placeholder;
-            };
+            }
             if (playerOneMark === "x") {
                 playerAI.mark = "o";
             } else {
@@ -415,7 +415,7 @@ const game = (() => {
             resetBoardButton.classList.remove("none");
             resetGameButton.classList.remove("none");
             popupGameModeAISetupMarkAlert.textContent = "";
-            scoreBoard.textContent = `${popupGameModeAISetupInputPlayerOne.value} is ${playerOneMark}: ${playerOneScore} ${playerAI.name} is ${playerAI.mark}: ${playerTwoScore}`
+            scoreBoard.textContent = `${popupGameModeAISetupInputPlayerOne.value} is ${playerOneMark}: ${playerOneScore} ${playerAI.name} is ${playerAI.mark}: ${playerTwoScore}`;
             gameModeAI = 1;
             vsAI();
             return { playerOne };
