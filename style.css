@@ -126,9 +126,11 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    align-self: center;
     padding: 10px;
     margin: 10px;
-    box-sizing: border-box;
+    border-radius: 20px;
+    background-color: rgba(255, 255, 255, 0.7);
 }
 
 .reset-buttons-div {
@@ -158,4 +160,13 @@ body {
     margin: 5px;
     padding: 5px;
     width: 100px;
+}
+
+input {
+    padding: 3px;
+    line-height: 20px;
+}
+
+.pushed-button {
+    transform: translateY(3px);
 }

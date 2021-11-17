@@ -8,7 +8,7 @@ header.textContent = "Tic-Tac-Toe";
 mainContainer.appendChild(header);
 
 const scoreBoard = document.createElement("div");
-scoreBoard.classList.add("score-board");
+scoreBoard.classList.add("none");
 scoreBoard.textContent = "";
 mainContainer.appendChild(scoreBoard);
 
@@ -171,17 +171,21 @@ popupGameModeAISetupInputPlayerOne.placeholder = "Player name";
 popupGameModeAISetupInputPlayerOne.setAttribute("maxlength", 15);
 popupGameModeAISetupMainOne.appendChild(popupGameModeAISetupInputPlayerOne);
 
+const popupGameModeAIdMarksButtonsDivPlayerOne = document.createElement("div");
+popupGameModeAIdMarksButtonsDivPlayerOne.classList.add("player-one-ai-marks-div");
+popupGameModeAISetupMainOne.appendChild(popupGameModeAIdMarksButtonsDivPlayerOne);
+
 const popupGameModeAIButtonXPlayerOne = document.createElement("button");
 popupGameModeAIButtonXPlayerOne.classList.add("player-one-x-button");
 popupGameModeAIButtonXPlayerOne.textContent = "X";
 popupGameModeAIButtonXPlayerOne.value = "X";
-popupGameModeAISetupMainOne.appendChild(popupGameModeAIButtonXPlayerOne);
+popupGameModeAIdMarksButtonsDivPlayerOne.appendChild(popupGameModeAIButtonXPlayerOne);
 
 const popupGameModeAIButtonOPlayerOne = document.createElement("button");
 popupGameModeAIButtonOPlayerOne.classList.add("player-one-o-button");
 popupGameModeAIButtonOPlayerOne.textContent = "O";
 popupGameModeAIButtonOPlayerOne.value = "O";
-popupGameModeAISetupMainOne.appendChild(popupGameModeAIButtonOPlayerOne);
+popupGameModeAIdMarksButtonsDivPlayerOne.appendChild(popupGameModeAIButtonOPlayerOne);
 
 const popupGameModeAISetupMarkAlert = document.createElement("div");
 popupGameModeAISetupFoot.appendChild(popupGameModeAISetupMarkAlert);
@@ -399,6 +403,7 @@ const game = (() => {
             if (popupGameModeFriendSetupInputPlayerTwo.value == "") {
                 popupGameModeFriendSetupInputPlayerTwo.value = popupGameModeFriendSetupInputPlayerTwo.placeholder;
             }
+            scoreBoard.classList.add("score-board");
             popupGameModeFriendSetup.classList.add("none");
             popupGameModeFriendSetup.classList.remove("friend-game-grid");
             gameContainer.classList.remove("none");
@@ -416,6 +421,7 @@ const game = (() => {
     };
 
     const chooseGameModeAISetup = () => {
+        popupWin.classList.remove("popup-win");
         popupGameMode.classList.add("none");
         popupGameModeAISetup.classList.remove("none");
         popupGameModeContainer.classList.add("none");
@@ -434,6 +440,7 @@ const game = (() => {
             } else {
                 playerAI.mark = "x";
             }
+            scoreBoard.classList.add("score-board");
             popupGameModeAISetup.classList.add("none");
             popupGameModeAISetup.classList.remove("ai-game-grid");
             gameContainer.classList.remove("none");
@@ -457,6 +464,7 @@ const game = (() => {
         playerAIScore = 0;
         gameModeAI = 0;
         popupGameMode.classList.remove("none");
+        scoreBoard.classList.remove("score-board");
         scoreBoard.textContent = "";
         popupGameModeFriendSetupInputPlayerOne.value = "";
         popupGameModeFriendSetupInputPlayerOne.placeholder = "Player 1 name";
@@ -473,6 +481,10 @@ const game = (() => {
         resetGameButton.classList.add("none");
     };
 
+    const pusButton = () => {
+        popupGameModeAIButtonXPlayerOne.classList.add("pushed-button");
+    }
+
     popupGameModeAIButtonXPlayerOne.addEventListener("click", setPlayerOneMarkX);
     popupGameModeAIButtonOPlayerOne.addEventListener("click", setPlayerOneMarkO);
     popupGameModeAISetupButton.addEventListener("click", submitAIPlayers);
@@ -487,5 +499,6 @@ const game = (() => {
     resetGameButton.addEventListener("click", resetGame);
     resetBoardButton.addEventListener("click", resetBoard);
     popupWinResetButton.addEventListener("click", resetBoard);
+    popupGameModeAIButtonXPlayerOne.addEventListener("click", pusButton)
     return { submitTwoPlayers, submitAIPlayers };
 })();
