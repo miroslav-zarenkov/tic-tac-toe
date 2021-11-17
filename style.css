@@ -124,3 +124,10 @@ body {
     grid-template-rows: 50px 75px 50px;
     grid-template-areas: "head head" "main-1 main-2" "foot foot";
 }
+
+.ai-game-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 50px 75px 50px;
+    grid-template-areas: "head" "main-1" "foot";
+}

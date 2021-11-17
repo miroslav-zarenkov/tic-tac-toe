@@ -78,6 +78,7 @@ popupGameModeFriendSetupMainOne.appendChild(popupGameModeFriendSetupParagraphPla
 
 const popupGameModeFriendSetupInputPlayerOne = document.createElement("input");
 popupGameModeFriendSetupInputPlayerOne.classList.add("player-one-input");
+popupGameModeFriendSetupInputPlayerOne.setAttribute("maxlength", 15);
 popupGameModeFriendSetupInputPlayerOne.placeholder = "Player 1 name";
 popupGameModeFriendSetupMainOne.appendChild(popupGameModeFriendSetupInputPlayerOne);
 
@@ -100,6 +101,7 @@ popupGameModeFriendSetupMainTwo.appendChild(popupGameModeFriendSetupParagraphPla
 const popupGameModeFriendSetupInputPlayerTwo = document.createElement("input");
 popupGameModeFriendSetupInputPlayerTwo.classList.add("player-two-input");
 popupGameModeFriendSetupInputPlayerTwo.placeholder = "Player 2 name";
+popupGameModeFriendSetupInputPlayerTwo.setAttribute("maxlength", 15);
 popupGameModeFriendSetupMainTwo.appendChild(popupGameModeFriendSetupInputPlayerTwo);
 
 const popupGameModeFriendButtonXPlayerTwo = document.createElement("button");
@@ -135,10 +137,6 @@ const popupGameModeAISetupMainOne = document.createElement("div");
 popupGameModeAISetupMainOne.classList.add("grid-main-1")
 popupGameModeAISetup.appendChild(popupGameModeAISetupMainOne);
 
-const popupGameModeAISetupMainTwo = document.createElement("div");
-popupGameModeAISetupMainTwo.classList.add("grid-main-2");
-popupGameModeAISetup.appendChild(popupGameModeAISetupMainTwo);
-
 const popupGameModeAISetupFoot = document.createElement("div");
 popupGameModeAISetupFoot.classList.add("grid-foot");
 popupGameModeAISetup.appendChild(popupGameModeAISetupFoot);
@@ -150,6 +148,7 @@ popupGameModeAISetupMainOne.appendChild(popupGameModeAISetupParagraphPlayerOne);
 const popupGameModeAISetupInputPlayerOne = document.createElement("input");
 popupGameModeAISetupInputPlayerOne.classList.add("player-one-input");
 popupGameModeAISetupInputPlayerOne.placeholder = "Player name";
+popupGameModeAISetupInputPlayerOne.setAttribute("maxlength", 15);
 popupGameModeAISetupMainOne.appendChild(popupGameModeAISetupInputPlayerOne);
 
 const popupGameModeAIButtonXPlayerOne = document.createElement("button");
@@ -395,7 +394,7 @@ const game = (() => {
     const chooseGameModeAISetup = () => {
         popupGameModeAISetup.classList.remove("none");
         popupGameModeContainer.classList.add("none");
-        popupGameModeAISetup.classList.add("friend-game-grid");
+        popupGameModeAISetup.classList.add("ai-game-grid");
         gameBoard.renderGameField();
     };
 
@@ -411,7 +410,7 @@ const game = (() => {
                 playerAI.mark = "x";
             }
             popupGameModeAISetup.classList.add("none");
-            popupGameModeAISetup.classList.remove("friend-game-grid");
+            popupGameModeAISetup.classList.remove("ai-game-grid");
             gameContainer.classList.remove("none");
             resetBoardButton.classList.remove("none");
             resetGameButton.classList.remove("none");
