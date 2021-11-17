@@ -8,6 +8,7 @@ header.textContent = "Tic-Tac-Toe";
 mainContainer.appendChild(header);
 
 const scoreBoard = document.createElement("div");
+scoreBoard.classList.add("score-board");
 scoreBoard.textContent = "";
 mainContainer.appendChild(scoreBoard);
 
@@ -15,28 +16,38 @@ const gameContainer = document.createElement("div");
 gameContainer.classList.add("game-container", "none");
 mainContainer.appendChild(gameContainer);
 
+const resetButtonsDiv = document.createElement("div");
+resetButtonsDiv.classList.add("reset-buttons-div");
+mainContainer.appendChild(resetButtonsDiv);
+
 const resetBoardButton = document.createElement("button");
 resetBoardButton.textContent = "Reset board";
 resetBoardButton.classList.add("reset-button", "none");
-mainContainer.appendChild(resetBoardButton);
+resetButtonsDiv.appendChild(resetBoardButton);
 
 const resetGameButton = document.createElement("button");
 resetGameButton.textContent = "Reset game";
 resetGameButton.classList.add("reset-button", "none");
-mainContainer.appendChild(resetGameButton);
+resetButtonsDiv.appendChild(resetGameButton);
 
 const popupWin = document.createElement("div");
-popupWin.classList.add("popup", "red", "none");
+popupWin.classList.add("popup", "none", "popup-win");
 mainContainer.appendChild(popupWin);
+
+const popupWinResetDiv = document.createElement("div");
+popupWinResetDiv.classList.add("popup-win-reset-div");
+popupWin.appendChild(popupWinResetDiv);
 
 const popupWinResetButton = document.createElement("button");
 popupWinResetButton.textContent = "Play again!";
+popupWinResetDiv.appendChild(popupWinResetButton);
 
 const popupGameMode = document.createElement("div");
-popupGameMode.classList.add("popup", "red");
+popupGameMode.classList.add("popup", "popup-game-mode");
 mainContainer.appendChild(popupGameMode);
 
 const popupGameModeContainer = document.createElement("div");
+popupGameModeContainer.classList.add("popup-game-mode-container");
 popupGameMode.appendChild(popupGameModeContainer);
 
 const popupGameModeHead = document.createElement("div");
@@ -52,7 +63,7 @@ popupGameModeAI.textContent = "Against AI";
 popupGameModeContainer.appendChild(popupGameModeAI);
 
 const popupGameModeFriendSetup = document.createElement("div");
-popupGameModeFriendSetup.classList.add("popup", "red", "none");
+popupGameModeFriendSetup.classList.add("popup", "none");
 mainContainer.appendChild(popupGameModeFriendSetup);
 
 const popupGameModeFriendSetupHead = document.createElement("div");
@@ -82,17 +93,21 @@ popupGameModeFriendSetupInputPlayerOne.setAttribute("maxlength", 15);
 popupGameModeFriendSetupInputPlayerOne.placeholder = "Player 1 name";
 popupGameModeFriendSetupMainOne.appendChild(popupGameModeFriendSetupInputPlayerOne);
 
+const popupGameModeFriendMarksButtonsDivPlayerOne = document.createElement("div");
+popupGameModeFriendMarksButtonsDivPlayerOne.classList.add("player-one-marks-div");
+popupGameModeFriendSetupMainOne.appendChild(popupGameModeFriendMarksButtonsDivPlayerOne);
+
 const popupGameModeFriendButtonXPlayerOne = document.createElement("button");
 popupGameModeFriendButtonXPlayerOne.classList.add("player-one-x-button");
 popupGameModeFriendButtonXPlayerOne.textContent = "X";
 popupGameModeFriendButtonXPlayerOne.value = "X";
-popupGameModeFriendSetupMainOne.appendChild(popupGameModeFriendButtonXPlayerOne);
+popupGameModeFriendMarksButtonsDivPlayerOne.appendChild(popupGameModeFriendButtonXPlayerOne);
 
 const popupGameModeFriendButtonOPlayerOne = document.createElement("button");
 popupGameModeFriendButtonOPlayerOne.classList.add("player-one-o-button");
 popupGameModeFriendButtonOPlayerOne.textContent = "O";
 popupGameModeFriendButtonOPlayerOne.value = "O";
-popupGameModeFriendSetupMainOne.appendChild(popupGameModeFriendButtonOPlayerOne);
+popupGameModeFriendMarksButtonsDivPlayerOne.appendChild(popupGameModeFriendButtonOPlayerOne);
 
 const popupGameModeFriendSetupParagraphPlayerTwo = document.createElement("p");
 popupGameModeFriendSetupParagraphPlayerTwo.textContent = "Player two name";
@@ -104,19 +119,24 @@ popupGameModeFriendSetupInputPlayerTwo.placeholder = "Player 2 name";
 popupGameModeFriendSetupInputPlayerTwo.setAttribute("maxlength", 15);
 popupGameModeFriendSetupMainTwo.appendChild(popupGameModeFriendSetupInputPlayerTwo);
 
+const popupGameModeFriendMarksButtonsDivPlayerTwo = document.createElement("div");
+popupGameModeFriendMarksButtonsDivPlayerTwo.classList.add("player-two-marks-div");
+popupGameModeFriendSetupMainTwo.appendChild(popupGameModeFriendMarksButtonsDivPlayerTwo);
+
 const popupGameModeFriendButtonXPlayerTwo = document.createElement("button");
 popupGameModeFriendButtonXPlayerTwo.classList.add("player-two-x-button");
 popupGameModeFriendButtonXPlayerTwo.textContent = "X";
 popupGameModeFriendButtonXPlayerTwo.value = "X";
-popupGameModeFriendSetupMainTwo.appendChild(popupGameModeFriendButtonXPlayerTwo);
+popupGameModeFriendMarksButtonsDivPlayerTwo.appendChild(popupGameModeFriendButtonXPlayerTwo);
 
 const popupGameModeFriendButtonOPlayerTwo = document.createElement("button");
 popupGameModeFriendButtonOPlayerTwo.classList.add("player-two-o-button");
 popupGameModeFriendButtonOPlayerTwo.textContent = "O";
 popupGameModeFriendButtonOPlayerTwo.value = "O";
-popupGameModeFriendSetupMainTwo.appendChild(popupGameModeFriendButtonOPlayerTwo);
+popupGameModeFriendMarksButtonsDivPlayerTwo.appendChild(popupGameModeFriendButtonOPlayerTwo);
 
 const popupGameModeFriendSetupMarkAlert = document.createElement("div");
+popupGameModeFriendSetupMarkAlert.classList.add("frien-mark-alert")
 popupGameModeFriendSetupFoot.appendChild(popupGameModeFriendSetupMarkAlert);
 
 const popupGameModeFriendSetupButton = document.createElement("button");
@@ -125,7 +145,7 @@ popupGameModeFriendSetupButton.textContent = "Submit";
 popupGameModeFriendSetupFoot.appendChild(popupGameModeFriendSetupButton);
 
 const popupGameModeAISetup = document.createElement("div");
-popupGameModeAISetup.classList.add("popup", "red", "none");
+popupGameModeAISetup.classList.add("popup", "none");
 mainContainer.appendChild(popupGameModeAISetup);
 
 const popupGameModeAISetupHead = document.createElement("div");
@@ -284,6 +304,7 @@ const game = (() => {
             popupWin.textContent = `${player} won!`;
             popupWin.appendChild(popupWinResetButton);
             popupWin.classList.remove("none");
+            popupWin.classList.add("popup-win");
             gameContainer.classList.add("disabled");
             playerTurn = 0;
             player = "";
@@ -310,6 +331,7 @@ const game = (() => {
         });
         playerTurn = 0;
         popupWin.classList.add("none");
+        popupWin.classList.remove("popup-win");
     };
 
     const randomDiv = (min, max) => {
@@ -335,8 +357,10 @@ const game = (() => {
     };
 
     const chooseGameModeFriendSetup = () => {
+        popupWin.classList.remove("popup-win");
         popupGameModeFriendSetup.classList.remove("none");
         popupGameModeContainer.classList.add("none");
+        popupGameMode.classList.add("none");
         popupGameModeFriendSetup.classList.add("friend-game-grid");
         gameBoard.renderGameField();
     };
@@ -392,6 +416,7 @@ const game = (() => {
     };
 
     const chooseGameModeAISetup = () => {
+        popupGameMode.classList.add("none");
         popupGameModeAISetup.classList.remove("none");
         popupGameModeContainer.classList.add("none");
         popupGameModeAISetup.classList.add("ai-game-grid");
@@ -431,6 +456,7 @@ const game = (() => {
         playerTwoScore = 0;
         playerAIScore = 0;
         gameModeAI = 0;
+        popupGameMode.classList.remove("none");
         scoreBoard.textContent = "";
         popupGameModeFriendSetupInputPlayerOne.value = "";
         popupGameModeFriendSetupInputPlayerOne.placeholder = "Player 1 name";
