@@ -481,8 +481,21 @@ const game = (() => {
         resetGameButton.classList.add("none");
     };
 
-    const pusButton = () => {
-        popupGameModeAIButtonXPlayerOne.classList.add("pushed-button");
+    const pushButton = (e) => {
+        allButtons = document.querySelectorAll("button");
+        allButtons.forEach(button => {
+            button.classList.remove("pushed-button");
+        });
+        if (e.target.classList.value === "player-one-x-button") {
+            popupGameModeFriendButtonOPlayerTwo.classList.add("pushed-button");
+        } else if (e.target.classList.value === "player-one-o-button") {
+            popupGameModeFriendButtonXPlayerTwo.classList.add("pushed-button");
+        } else if (e.target.classList.value === "player-two-x-button") {
+            popupGameModeFriendButtonOPlayerOne.classList.add("pushed-button");
+        } else if (e.target.classList.value === "player-two-o-button") {
+            popupGameModeFriendButtonXPlayerOne.classList.add("pushed-button");
+        }
+        e.target.classList.add("pushed-button");
     }
 
     popupGameModeAIButtonXPlayerOne.addEventListener("click", setPlayerOneMarkX);
@@ -499,6 +512,11 @@ const game = (() => {
     resetGameButton.addEventListener("click", resetGame);
     resetBoardButton.addEventListener("click", resetBoard);
     popupWinResetButton.addEventListener("click", resetBoard);
-    popupGameModeAIButtonXPlayerOne.addEventListener("click", pusButton)
+    popupGameModeAIButtonXPlayerOne.addEventListener("click", pushButton);
+    popupGameModeAIButtonOPlayerOne.addEventListener("click", pushButton);
+    popupGameModeFriendButtonXPlayerOne.addEventListener("click", pushButton);
+    popupGameModeFriendButtonOPlayerOne.addEventListener("click", pushButton);
+    popupGameModeFriendButtonXPlayerTwo.addEventListener("click", pushButton);
+    popupGameModeFriendButtonOPlayerTwo.addEventListener("click", pushButton);
     return { submitTwoPlayers, submitAIPlayers };
 })();
