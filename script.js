@@ -136,7 +136,7 @@ popupGameModeFriendButtonOPlayerTwo.value = "O";
 popupGameModeFriendMarksButtonsDivPlayerTwo.appendChild(popupGameModeFriendButtonOPlayerTwo);
 
 const popupGameModeFriendSetupMarkAlert = document.createElement("div");
-popupGameModeFriendSetupMarkAlert.classList.add("frien-mark-alert")
+popupGameModeFriendSetupMarkAlert.classList.add("friend-mark-alert");
 popupGameModeFriendSetupFoot.appendChild(popupGameModeFriendSetupMarkAlert);
 
 const popupGameModeFriendSetupButton = document.createElement("button");
@@ -459,6 +459,7 @@ const game = (() => {
 
     const resetGame = () => {
         resetBoard();
+        removePushedButton();
         playerOneScore = 0;
         playerTwoScore = 0;
         playerAIScore = 0;
@@ -482,10 +483,7 @@ const game = (() => {
     };
 
     const pushButton = (e) => {
-        allButtons = document.querySelectorAll("button");
-        allButtons.forEach(button => {
-            button.classList.remove("pushed-button");
-        });
+        removePushedButton();
         if (e.target.classList.value === "player-one-x-button") {
             popupGameModeFriendButtonOPlayerTwo.classList.add("pushed-button");
         } else if (e.target.classList.value === "player-one-o-button") {
@@ -496,6 +494,13 @@ const game = (() => {
             popupGameModeFriendButtonXPlayerOne.classList.add("pushed-button");
         }
         e.target.classList.add("pushed-button");
+    };
+
+    const removePushedButton = () => {
+        let allButtons = document.querySelectorAll("button");
+        allButtons.forEach(button => {
+            button.classList.remove("pushed-button");
+        });
     }
 
     popupGameModeAIButtonXPlayerOne.addEventListener("click", setPlayerOneMarkX);
