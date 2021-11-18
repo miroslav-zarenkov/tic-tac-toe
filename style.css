@@ -111,14 +111,14 @@ body {
 .friend-game-grid {
     display: grid;
     grid-template-columns: 1fr;
-    grid-template-rows: 30px 100px 50px;
+    grid-template-rows: 30px 100px 70px;
     grid-template-areas: "head head" "main-1 main-2" "foot foot";
 }
 
 .ai-game-grid {
     display: grid;
     grid-template-columns: 1fr;
-    grid-template-rows: 30px 100px 50px;
+    grid-template-rows: 30px 100px 70px;
     grid-template-areas: "head" "main-1" "foot";
 }
 
@@ -169,4 +169,32 @@ input {
 
 .pushed-button {
     transform: translateY(3px);
+}
+
+.grid-main-1 button,
+.grid-main-2 button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 3px;
+    padding: 5px;
+    font-size: 0.8em;
+    font-weight: 700;
+    height: 30px;
+    width: 30px;
+    text-align: center;
+}
+
+.player-one-ai-marks-div,
+.player-one-marks-div,
+.player-two-marks-div {
+    display: flex;
+    flex-direction: row;
+}
+
+.submit-two-players,
+.submit-ai-players {
+    margin: 3px;
+    padding: 3px;
+    font-size: 0.7em;
 }
